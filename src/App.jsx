@@ -1,6 +1,6 @@
 import {useCallback, useState} from "react";
 import React from "react";
-import './App.css'
+import { ToDoListTitle } from "./components/ToDoListTitle";
 import {ToDoList} from "./components/ToDoList";
 
 export const App = () => {
@@ -31,25 +31,30 @@ export const App = () => {
             setTask((tasks) => {
                 return [...tasks.slice(0, index), ...tasks.slice(index + 1)];
             });
-
             createMessage('');
         },
         []
     );
 
     return (
-        <>
-            <label>
+        <div className='to-do-wrapper'>
+            <ToDoListTitle tasks={tasks} />
+                <div className="input-wrapper">
                 <input
+                    className="task-input"
                     value={message}
+                    placeholder="Set a task"
                     onChange={onInput}
                 >
                 </input>
-            </label>
-            <button onClick={onClick}>
+                <button
+                    className="set-task-button"
+                    onClick={onClick}
+                >
                 Create a task!
             </button>
+                </div>
             <ToDoList tasks={tasks} onRemove={onRemove}/>
-        </>
+        </div>
     )
 };
