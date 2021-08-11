@@ -1,20 +1,43 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useMemo} from "react";
 
-export const ToDoListItem = ({value, index, onRemove}) => {
-    const onClick = useCallback(
-        () => onRemove(index),
+export const ToDoListItem = ({description, index, onSelected, onRemove, color = null}) => {
+    const handleRemove = useCallback(
+        (e) => {
+            e.stopPropagation();
+            onRemove(index);
+        },
         [index, onRemove]
     );
 
+    const handleSelection = useCallback(
+        () => onSelected(index),
+        [onSelected, index]
+    );
+
+    const styles = useMemo(
+        () => ({
+            backgroundColor: color
+        }),
+        [color]
+    );
+
     return (
-        <li className="to-do-list-item">
-        <span className="task-to-do">
-            {value}
-        </span>
+        <li className="to-do-list-item"
+            onClick={handleSelection}
+            style={styles}
+        >
+            <button
+                className="color-choice-button"
+                type="button"
+            >
+            </button>
+            <span className="task-to-do">
+                {description}
+            </span>
             <button
                 className="task-done-button"
                 type="button"
-                onClick={onClick}
+                onClick={handleRemove}
             >
                 Delete task!
             </button>
